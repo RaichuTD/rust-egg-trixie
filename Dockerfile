@@ -13,12 +13,13 @@ RUN apt update && apt upgrade -y \
         software-properties-common ca-certificates tzdata liblua5.4-0 \
         libz-dev rapidjson-dev lib32gcc-s1 lib32stdc++6 libmariadb-dev \
     && apt install -y libunwind-dev || true \
-    && update-locale lang=en_US.UTF-8 \
-    && dpkg-reconfigure --frontend noninteractive locales \
+    && sed -i '/en_US.UTF-8/s/^# //g' /etc/locale.gen \
+    && locale-gen \
     && useradd -m -d /home/container -s /bin/bash container
 
 USER container
 ENV USER=container HOME=/home/container
+ENV LANG=en_US.UTF-8
 ENV DEBIAN_FRONTEND=noninteractive
 
 WORKDIR /home/container
