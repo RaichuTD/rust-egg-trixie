@@ -10,10 +10,10 @@ RUN apt update && apt upgrade -y \
         binutils xz-utils liblzo2-2 cabextract iproute2 net-tools netcat-openbsd \
         libatomic1 libsdl2-2.0-0 libfontconfig1 libssl-dev \
         sqlite3 libsqlite3-dev locales ffmpeg gnupg2 apt-transport-https \
-        software-properties-common ca-certificates tzdata liblua5.4-0 \
+        ca-certificates tzdata liblua5.4-0 \
         libz-dev rapidjson-dev lib32gcc-s1 lib32stdc++6 libmariadb-dev \
     && apt install -y libunwind-dev || true \
-    && sed -i '/en_US.UTF-8/s/^# //g' /etc/locale.gen \
+    && echo "en_US.UTF-8 UTF-8" > /etc/locale.gen \
     && locale-gen \
     && useradd -m -d /home/container -s /bin/bash container
 
