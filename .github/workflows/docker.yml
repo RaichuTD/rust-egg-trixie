@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - main
+  schedule:
+    - cron: '0 3 * * 1'
   workflow_dispatch:
 
 jobs:
@@ -32,9 +34,12 @@ jobs:
         run: echo "OWNER=$(echo ${{ github.repository_owner }} | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
 
       - name: Build and push
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           context: .
           push: true
           platforms: linux/amd64
           tags: ghcr.io/${{ env.OWNER }}/rust-egg-trixie:latest
+
+    env:
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
