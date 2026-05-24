@@ -28,10 +28,13 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
+      - name: Set lowercase owner
+        run: echo "OWNER=$(echo ${{ github.repository_owner }} | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
+
       - name: Build and push
         uses: docker/build-push-action@v5
         with:
           context: .
           push: true
           platforms: linux/amd64
-          tags: ghcr.io/${{ github.repository_owner }}/rust-egg-trixie:latest
+          tags: ghcr.io/${{ env.OWNER }}/rust-egg-trixie:latest
